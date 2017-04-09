@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'android-apt'
+
+retrolambda {
+    jvmArgs '-noverify'
+}
+
+android {
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "pl.jermey.wearlauncher"
+        minSdkVersion 25
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
+    compile "com.google.android.support:wearable:2.0.1"
+    compile "com.google.android.gms:play-services-wearable:10.2.1"
+    provided "com.google.android.wearable:wearable:2.0.1"
+    apt "org.androidannotations:androidannotations:$rootProject.ext.AAVersion"
+    compile "org.androidannotations:androidannotations-api:$rootProject.ext.AAVersion"
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    compile "com.github.bumptech.glide:glide:3.7.0"
+    compile "jp.wasabeef:glide-transformations:2.0.1"
+    compile("com.mikepenz:fastadapter:2.5.1@aar") {
+        transitive = true
+    }
+    compile "com.mikepenz:fastadapter-commons:2.5.0@aar"
+    compile "com.mikepenz:fastadapter-extensions:2.5.0@aar"
+    compile "com.github.zagum:SpeechRecognitionView:1.0.2"
+}
