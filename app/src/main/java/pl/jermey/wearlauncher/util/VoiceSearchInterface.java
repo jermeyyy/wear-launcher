@@ -11,5 +11,4 @@ public interface VoiceSearchInterface {
     void onSearch(String query);
     SpeechRecognizer getSpeechRecognizer();
     Intent getSpeechIntent();
-    void cancelSearch();
 }

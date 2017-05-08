@@ -9,9 +9,9 @@ import android.view.animation.Transformation;
  */
 
 public class ResizeAnimation extends Animation {
-    final int targetHeight;
-    View view;
-    int startHeight;
+    private final int targetHeight;
+    private View view;
+    private int startHeight;
 
     public ResizeAnimation(View view, int targetHeight, int startHeight) {
         this.view = view;
@@ -21,8 +21,7 @@ public class ResizeAnimation extends Animation {
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
-        int newHeight = (int) (startHeight + (targetHeight - startHeight) * interpolatedTime);
-        view.getLayoutParams().height = newHeight;
+        view.getLayoutParams().height = (int) (startHeight + (targetHeight - startHeight) * interpolatedTime);
         view.requestLayout();
     }
 

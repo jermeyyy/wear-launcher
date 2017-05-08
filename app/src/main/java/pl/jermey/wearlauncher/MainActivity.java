@@ -30,6 +30,7 @@ public class MainActivity extends WearableActivity {
             public void onDismissed(SwipeDismissFrameLayout layout) {
                 super.onDismissed(layout);
                 gotoClockActivity();
+                finish();
             }
         });
     }

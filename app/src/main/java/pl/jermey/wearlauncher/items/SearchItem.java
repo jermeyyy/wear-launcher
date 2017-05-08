@@ -66,16 +66,6 @@ public class SearchItem extends AbstractItem<SearchItem, SearchItem.ViewHolder> 
         holder.recognitionView.setColors(colors);
         holder.recognitionView.setBarMaxHeightsInDp(heights);
         holder.recognitionView.setSpeechRecognizer(searchInterface.getSpeechRecognizer());
-        if (!TextUtils.isEmpty(query)) {
-            holder.queryText.setVisibility(View.VISIBLE);
-            holder.queryText.setText(query);
-            holder.closeIcon.setVisibility(View.VISIBLE);
-            holder.searchIcon.setVisibility(View.GONE);
-        } else {
-            holder.closeIcon.setVisibility(View.GONE);
-            holder.searchIcon.setVisibility(View.VISIBLE);
-            holder.queryText.setVisibility(View.GONE);
-        }
         holder.recognitionView.setRecognitionListener(new RecognitionListenerAdapter() {
 
             @Override
@@ -112,7 +102,6 @@ public class SearchItem extends AbstractItem<SearchItem, SearchItem.ViewHolder> 
         });
         holder.recognitionView.setOnClickListener(v -> {
             searchInterface.getSpeechRecognizer().stopListening();
-            searchInterface.cancelSearch();
             collapseSearchView(holder, null);
         });
     }
@@ -136,10 +125,10 @@ public class SearchItem extends AbstractItem<SearchItem, SearchItem.ViewHolder> 
     private void collapseSearchView(final ViewHolder holder, String queryToShow) {
         holder.recognitionView.setVisibility(View.GONE);
 
-        if (TextUtils.isEmpty(queryToShow)) {
+        if (TextUtils.isEmpty(query)) {
             holder.queryText.setVisibility(View.GONE);
         } else {
-            holder.queryText.setText(queryToShow);
+            holder.queryText.setText(query);
         }
 
         int targetHeight = (int) (holder.itemView.getResources().getDisplayMetrics().scaledDensity * 56f);

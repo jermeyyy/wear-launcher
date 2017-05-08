@@ -70,22 +70,15 @@ public class AppListFragment extends Fragment implements VoiceSearchInterface {
     @Override
     public Intent getSpeechIntent() {
         Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                getActivity().getPackageName());
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getActivity().getPackageName());
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 1200);
         return speechRecognizerIntent;
-    }
-
-    @Override
-    public void cancelSearch() {
-
     }
 
     void openApp(AppDetail appDetail) {
         Intent i = getContext().getPackageManager().getLaunchIntentForPackage(appDetail.name.toString());
         startActivity(i);
-        getActivity().finish();
     }
 
     void setupAppList() {
@@ -94,7 +87,10 @@ public class AppListFragment extends Fragment implements VoiceSearchInterface {
         adapter.withPositionBasedStateManagement(false);
         adapter.withFilterPredicate((item, constraint) -> {
             if (item instanceof AppItem)
-                return !constraint.toString().toLowerCase().contains(((AppItem) item).appDetail.label.toString().toLowerCase());
+                if (((AppItem) item).appDetail == null)
+                    return true;
+                else
+                    return !constraint.toString().toLowerCase().contains(((AppItem) item).appDetail.label.toString().toLowerCase());
             else if (item instanceof SearchItem)
                 return false;
             else
